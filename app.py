@@ -91,4 +91,4 @@ def main():
     cg.new_submission("LocalTest", "submit.c", coggolf.HELLO_WORLD_CHALLENGE)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0")
