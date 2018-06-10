@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#submissions {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#submissions td, #submissions th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#submissions tr:nth-child(even){background-color: #f2f2f2;}
+
+#submissions tr:hover {background-color: #ddd;}
+
+#submissions th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<h2>{{ challenge }} Leaderboard</h2>
+
+<table id="submissions">
+	<tr>
+	  <td><b>Name</b></td>
+	  <td><b>Count</b></td>
+	  <td><b>Path</b></td>
+	</tr>
+{% for sub_index in range(submissions|count) %}
+    <tr>
+      <td>{{ submissions[sub_index]["name"] }}</td>
+      <td>{{ submissions[sub_index]["count"] }}</td>
+      <td>
+		<form action="/uploads" method=post enctype=multipart/form-data>
+			<input type=submit name=submit value={{ submissions[sub_index]["src_file"] }}>
+    	</form>
+  	  </td>
+    </tr>
+{% endfor %}
+</table>
+
+</body>
+</html>

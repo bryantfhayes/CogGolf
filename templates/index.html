@@ -1,0 +1,31 @@
+<!doctype html>
+<title>CogGolf Service</title>
+<h1>Upload Source Code File</h1>
+<form action="/upload" method=post enctype=multipart/form-data>
+    Name:<br>
+    <input type="text" name="name" value="">
+    <br><br>
+
+    <select name="challenge" size="3">
+        {% for index in range(challenges|count) %}
+            <option value={{ challenges[index] }}>{{ challenges[index] }}</option>
+        {% endfor %}
+    </select>
+    <br><br>
+
+    <p>
+        <input type=file name=file>
+        <input type=submit value=Upload>
+    </p>
+</form>
+
+<form action="/viewscores" method=post enctype=multipart/form-data>
+    <select name="challenge" size="3">
+        {% for index in range(challenges|count) %}
+            <option value={{ challenges[index] }}>{{ challenges[index] }}</option>
+        {% endfor %}
+    </select>
+    <br><br>
+
+    <input type=submit value=ViewScores>
+</form>
