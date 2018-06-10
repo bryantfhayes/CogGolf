@@ -41,8 +41,8 @@
       <td>{{ submissions[sub_index]["name"] }}</td>
       <td>{{ submissions[sub_index]["count"] }}</td>
       <td>
-		<form action="/uploads" method=post enctype=multipart/form-data>
-			<input type=submit name=submit value={{ submissions[sub_index]["src_file"] }}>
+		<form action="/viewsource" method=post enctype=multipart/form-data>
+			<input type=submit name=path value={{ submissions[sub_index]["src_file"] }}>
     	</form>
   	  </td>
     </tr>

@@ -9,12 +9,12 @@ def _view_scores(request):
     # Get a copy of the submission data for displaying
     challenge = request.form["challenge"]
     submissions = copy.deepcopy(cg.get_submissions_for_challenge(challenge))
-    response = sorted(submissions, key=lambda d: int(d["count"]))
+    submissions = sorted(submissions, key=lambda d: int(d["count"]))
     
     # Determine HIGH SCORE and hide all that match it
-    if len(response) > 0:
-        topscore = int(response[0]["count"])
-        for sub in response:
+    if len(submissions) > 0:
+        topscore = int(submissions[0]["count"])
+        for sub in submissions:
             if sub["count"] <= topscore:
                 sub["src_file"] = "HIDDEN"
 
@@ -53,6 +53,7 @@ def view_scores():
         return "MISSING CHALLENGE", 400
 
     challenge, submissions = _view_scores(request)
+    print(submissions)
     return Response(render_template('viewscores.html', submissions=submissions, challenge=challenge, mimetype='text/html'))
 
 @app.route('/api/viewscores', methods=['POST'])
@@ -71,6 +72,12 @@ def api_upload_file():
 @app.route('/upload', methods=['POST'])
 def upload_file():
     return _upload(request)
+
+@app.route('/viewsource', methods=['POST'])
+def view_source():
+    if request.form['path'] == "HIDDEN":
+        return "UNAUTHORIZED", 400
+    return send_from_directory(os.path.dirname(request.form['path']), os.path.basename(request.form["path"]))
 
 #
 # Show main home page, where users can access submission forms 

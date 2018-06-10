@@ -126,7 +126,6 @@ class CogGolf(object):
 
         submissions = []
         for key, sub in six.iteritems(self.data.getObjectForPath("submissions")):
-            print(sub)
             if sub["challenge"].lower() == challenge_name.lower():
                 submissions.append(sub)
         return submissions
