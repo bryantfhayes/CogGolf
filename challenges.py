@@ -56,6 +56,42 @@ Output:
     return self.input_args[::-1]
 
 #
+# Class for RomanToDec String Challenge
+#
+class RomanToDecChallenge(Challenge):
+  def __init__(self):
+      Challenge.__init__(self, "RomanToDec")
+      self.N = 0
+      self.coding = zip([1000,900,500,400,100,90,50,40,10,9,5,4,1], ["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"])
+      self.input_args = self.random_roman_string()
+      self.description = '''Given a roman numeral string as a command line argument, print out the decimal equivelent.
+The string will be given in UPPERCASE ascii, and the decimal value will be between 1 - 3999.
+
+Input:
+MMMDCCCLXXXVIII
+
+Output:
+3888
+    '''
+
+  def decToRoman(self, num):
+    if num <= 0 or num >= 4000 or int(num) != num:
+        raise ValueError('Input should be an integer between 1 and 3999')
+    result = []
+    for d, r in self.coding:
+        while num >= d:
+            result.append(r)
+            num -= d
+    return ''.join(result)
+
+  def random_roman_string(self):
+            self.N = random.randint(1, 3999)
+            return self.decToRoman(self.N).upper()
+
+  def expected_output(self):
+      return str(self.N)
+
+#
 # Class for Sorting String Challenge
 #
 class SortStringChallenge(Challenge):

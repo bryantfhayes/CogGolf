@@ -8,6 +8,7 @@ from shutil import copyfile
 REVERSE_STRING_CHALLENGE = "ReverseString"
 HELLO_WORLD_CHALLENGE = "HelloWorld"
 SORT_STRING_CHALLENGE = "SortString"
+ROMAN_TO_DECIMAL_CHALLENGE = "RomanToDec"
 
 #
 # Submission object created when code is submitted for a challenge
@@ -103,7 +104,7 @@ class CogGolf(object):
         self.data = SFDatabase(self.rel_database_path)
 
         # FOR_EACH_TEST: Enable challenges and supply challenge strings
-        self.data.setObjectForPath("challenges", { REVERSE_STRING_CHALLENGE : True, HELLO_WORLD_CHALLENGE : True, SORT_STRING_CHALLENGE : True })
+        self.data.setObjectForPath("challenges", { REVERSE_STRING_CHALLENGE : True, HELLO_WORLD_CHALLENGE : True, SORT_STRING_CHALLENGE : True, ROMAN_TO_DECIMAL_CHALLENGE : True })
 
         # Initialize challenges and load submissions
         self.challenges = {}
@@ -121,6 +122,9 @@ class CogGolf(object):
             return challenges.HelloWorldChallenge()
         elif challenge_name == SORT_STRING_CHALLENGE:
             return challenges.SortStringChallenge()
+        elif challenge_name == ROMAN_TO_DECIMAL_CHALLENGE:
+            return challenges.RomanToDecChallenge()
+
 
     def get_submissions_for_challenge(self, challenge_name):
         ''' Return a list of submissions for specified challenge '''
