@@ -20,7 +20,6 @@
       <fieldset class="form-group">
         <h1>Challenges</h1>
         {% for index in range(challenges|count) %}
-            <option value={{ challenges[index] }}>{{ challenges[index] }}</option>
             <div class="form-check">
               <label class="form-check-label">
                 <input type="radio" class="form-check-input" name="challenge" id="optionsRadios1" value={{ challenges[index] }} checked>

@@ -7,6 +7,7 @@ from shutil import copyfile
 # FOR_EACH_TEST: Add new challenge string
 REVERSE_STRING_CHALLENGE = "ReverseString"
 HELLO_WORLD_CHALLENGE = "HelloWorld"
+SORT_STRING_CHALLENGE = "SortString"
 
 #
 # Submission object created when code is submitted for a challenge
@@ -68,7 +69,7 @@ class Submission(object):
         ''' Count the number of non-whitespace characters in a file '''
         with open(self.path_to_file, 'r') as fp:
             text = fp.read()
-        return len(text) - text.count('\n') - text.count(' ') - text.count('\t')
+        return len(text) - text.count('\n') - text.count('\r') - text.count(' ') - text.count('\t')
 
     def file_is_valid(self):
         ''' Check to see if submitted file is valid '''
@@ -102,7 +103,7 @@ class CogGolf(object):
         self.data = SFDatabase(self.rel_database_path)
 
         # FOR_EACH_TEST: Enable challenges and supply challenge strings
-        self.data.setObjectForPath("challenges", { REVERSE_STRING_CHALLENGE : True, HELLO_WORLD_CHALLENGE : True })
+        self.data.setObjectForPath("challenges", { REVERSE_STRING_CHALLENGE : True, HELLO_WORLD_CHALLENGE : True, SORT_STRING_CHALLENGE : True })
 
         # Initialize challenges and load submissions
         self.challenges = {}
@@ -118,6 +119,8 @@ class CogGolf(object):
             return challenges.ReverseStringChallenge()
         elif challenge_name == HELLO_WORLD_CHALLENGE:
             return challenges.HelloWorldChallenge()
+        elif challenge_name == SORT_STRING_CHALLENGE:
+            return challenges.SortStringChallenge()
 
     def get_submissions_for_challenge(self, challenge_name):
         ''' Return a list of submissions for specified challenge '''
@@ -138,7 +141,10 @@ class CogGolf(object):
 
         submission = Submission(name, path_to_file, self.challenge_obj_for_name(challenge_name))
         self.submissions[submission.time] = submission
-        self.data.setObjectForPath("submissions/{}".format(submission.time), submission.getData())
+        
+        # Only save valid submissions
+        if submission.data["valid"]:
+            self.data.setObjectForPath("submissions/{}".format(submission.time), submission.getData())
 
         return submission
 

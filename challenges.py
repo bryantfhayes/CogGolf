@@ -1,4 +1,4 @@
-import os, sys, re, json, random
+import os, sys, re, json, random, string
 
 #
 # Abstract class for containing knowledge of a specific code challenge (e.g - ReverseString)
@@ -25,6 +25,21 @@ class Challenge(object):
 
     def expected_output(self):
         pass
+
+#
+# Class for Sorting String Challenge
+#
+class SortStringChallenge(Challenge):
+	def __init__(self):
+	    Challenge.__init__(self, "SortString")
+	    self.input_args = self.random_string()
+
+	def random_string(self):
+            N = random.randint(10, 250)
+            return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(N))
+
+	def expected_output(self):
+	    return ''.join(sorted(self.input_args))
 
 #
 # Class for Reverse String Challenge
