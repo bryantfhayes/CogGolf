@@ -46,6 +46,12 @@ def _upload(request):
 
     return "UNKNOWN ERROR", 400
 
+def _viewinfo(request):
+    challenge = request.form["challenge"]
+    description = cg.challenge_obj_for_name(challenge).description
+
+    return challenge, description
+
 @app.route('/viewscores', methods=['POST'])
 def view_scores():
     ''' Redirect to view_scores page for non-api users '''
@@ -72,6 +78,22 @@ def api_upload_file():
 @app.route('/upload', methods=['POST'])
 def upload_file():
     return _upload(request)
+
+@app.route('/viewinfo', methods=['POST'])
+def viewinfo():
+    if 'challenge' not in request.form or request.form['challenge'] == "":
+        return 
+
+    challenge, description = _viewinfo(request)
+    return description.replace('\n', "<br>")
+
+@app.route('/api/viewinfo', methods=['POST'])
+def api_viewinfo():
+    if 'challenge' not in request.form or request.form['challenge'] == "":
+        return 
+
+    challenge, description = _viewinfo(request)
+    return description.replace('\n', "<br>")
 
 @app.route('/viewsource', methods=['POST'])
 def view_source():
