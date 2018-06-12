@@ -27,6 +27,9 @@ class Challenge(object):
     def expected_output(self):
         pass
 
+    def reload(self):
+      pass
+
 #
 # Class for Reverse String Challenge
 #
@@ -61,9 +64,7 @@ Output:
 class RomanToDecChallenge(Challenge):
   def __init__(self):
       Challenge.__init__(self, "RomanToDec")
-      self.N = 0
-      self.coding = zip([1000,900,500,400,100,90,50,40,10,9,5,4,1], ["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"])
-      self.input_args = self.random_roman_string()
+      self.reload()
       self.description = '''Given a roman numeral string as a command line argument, print out the decimal equivelent.
 The string will be given in UPPERCASE ascii, and the decimal value will be between 1 - 3999.
 
@@ -91,13 +92,18 @@ Output:
   def expected_output(self):
       return str(self.N)
 
+  def reload(self):
+    self.N = 0
+    self.coding = zip([1000,900,500,400,100,90,50,40,10,9,5,4,1], ["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"])
+    self.input_args = self.random_roman_string()
+
 #
 # Class for Sorting String Challenge
 #
 class SortStringChallenge(Challenge):
   def __init__(self):
       Challenge.__init__(self, "SortString")
-      self.input_args = self.random_string()
+      self.reload()
       self.description = '''Given a string as a command line argument, sort the string and print it to stdout. 
 Do NOT include a newline character.
 
@@ -115,13 +121,16 @@ dlroWolleH
   def expected_output(self):
       return ''.join(sorted(self.input_args))
 
+  def reload(self):
+    self.input_args = self.random_string()
+
 #
 # Class for Reverse String Challenge
 #
 class HelloWorldChallenge(Challenge):
   def __init__(self):
     Challenge.__init__(self, "HelloWorld")
-    self.input_args = ""
+    self.reload()
     self.description = '''Print the string 'Hello World' to stdout.
 
 Output:
@@ -130,3 +139,6 @@ Hello World
 
   def expected_output(self):
     return "Hello World"
+
+  def reload(self):
+    self.input_args = ""

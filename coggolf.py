@@ -20,6 +20,7 @@ class Submission(object):
         self.challenge = challenge
         self.time = str(time.time()).split('.')[0]
         self.name = name
+        self.valid = False
 
         # Copy file to the challenge directory and rename to timestamp
         self.src_file = os.path.join(challenge.upload_dir, (self.time + ".c"))
@@ -48,8 +49,19 @@ class Submission(object):
         print("Compilation {}".format("Successful" if self.data["compiled"] else "Failed"))
 
         # Check if test passes criteria!
-        self.data["valid"] = self.validate()
-        print("Solution is {}".format("VALID" if self.data["valid"] else "INVALID"))
+        self.data["iteration"] = 0
+        passed = True
+        for i in xrange(0, 100):
+            self.data["iteration"] = i
+            self.challenge.reload()
+            self.data["valid"] = self.validate()
+            if self.data["valid"] == False:
+                passed = False
+                break
+
+        self.valid = passed
+
+        print("Solution is {}".format("VALID" if passed else "INVALID"))
 
     def validate(self):
         ''' Run and then determine if the stdout matches what the challenge wants '''
@@ -147,7 +159,7 @@ class CogGolf(object):
         self.submissions[submission.time] = submission
         
         # Only save valid submissions
-        if submission.data["valid"]:
+        if submission.valid:
             self.data.setObjectForPath("submissions/{}".format(submission.time), submission.getData())
 
         return submission
