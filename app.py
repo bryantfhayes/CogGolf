@@ -42,8 +42,8 @@ def _upload(request):
         filename = secure_filename(file.filename)
         file.save(os.path.join("tmp", filename))
         submission = cg.new_submission(name, os.path.join("tmp", filename), challenge)
-        header = "<h1>PASSED</h1><br>" if submission.valid else "<h1>FAILED</h1><br"
-        return header + jsonify(submission.getData()), 200
+        passed = "PASSED" if submission.valid else "FAILED"
+        return Response(render_template('upload.html', passed=passed, data=submission.getData(), mimetype='text/html'))
 
     return "UNKNOWN ERROR", 400
 
